@@ -219,7 +219,12 @@ def minimax(player, board, depth_limit):
 ### Please finish the code below ##############################################
 ###############################################################################
     def value(player, board, depth_limit):
-        pass
+        if board.terminal() or depth_limit == 0: # always max first
+            return evaluate(max_player, board)
+        if player == max_player:
+            return max_value(player, board, depth_limit)
+        else:
+            return min_value(player, board, depth_limit)
 
     def max_value(player, board, depth_limit):
         pass
