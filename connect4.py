@@ -227,7 +227,10 @@ def minimax(player, board, depth_limit):
             return min_value(player, board, depth_limit)
 
     def max_value(player, board, depth_limit):
-        pass
+        v = -math.inf
+        for col, new_board in get_child_boards(player, board):
+            v = max(v, value(next_player, new_board, depth_limit - 1))
+        return v
     
     def min_value(player, board, depth_limit):
         pass
