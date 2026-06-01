@@ -282,16 +282,42 @@ def alphabeta(player, board, depth_limit):
 ### Please finish the code below ##############################################
 ###############################################################################
     def value(player, board, depth_limit, alpha, beta):
-        pass
+        if board.terminal() or depth_limit == 0:
+            return evaluate(max_player, board)
+        if player == max_player:
+            return max_value(player, board, depth_limit, alpha, beta)
+        else:
+            return min_value(player, board, depth_limit, alpha, beta)
 
     def max_value(player, board, depth_limit, alpha, beta):
-        pass
+        v = -math.inf
+        next_player = board.PLAYER2 if player == board.PLAYER1 else board.PLAYER1
+        for col, new_board in get_child_boards(player, board):
+            v = max(v, value(next_player, new_board, depth_limit - 1, alpha, beta))
+            if v >= beta:
+                return v
+            alpha = max(alpha, v)
+        return v
     
     def min_value(player, board, depth_limit, alpha, beta):
-        pass
+        v = math.inf
+        next_player = board.PLAYER2 if player == board.PLAYER1 else board.PLAYER1
+        for col, new_board in get_child_boards(player, board):
+            v = min(v, value(next_player, new_board, depth_limit - 1, alpha, beta))
+            if v <= alpha:
+                return v
+            beta = min(beta, v)
+        return v
+
 
     next_player = board.PLAYER2 if player == board.PLAYER1 else board.PLAYER1
     score = -math.inf
+
+    for col, new_board in get_child_boards(player, board):
+        v = value(next_player, new_board, depth_limit - 1, -math.inf, math.inf)
+        if v > score:
+            score = v
+            placement = col
 ###############################################################################
     return placement
 
