@@ -378,6 +378,12 @@ def expectimax(player, board, depth_limit):
 
     next_player = board.PLAYER2 if player == board.PLAYER1 else board.PLAYER1
     score = -math.inf
+
+    for col, new_board in get_child_boards(player, board):
+        v = value(next_player, new_board, depth_limit - 1)
+        if v > score:
+            score = v
+            placement = col
 ###############################################################################
     return placement
 
